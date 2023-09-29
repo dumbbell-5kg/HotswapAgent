@@ -1,4 +1,4 @@
-package com.example.springbootdemo.mongo;
+package mongo;
 
 import org.springframework.stereotype.Service;
 

@@ -9,8 +9,9 @@
         <version>2.3.2.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>org.hotswapagent</groupId>
-    <artifactId>my-springboot</artifactId>
+    <artifactId>my-springboot2</artifactId>
     <version>1.4.2-SNAPSHOT</version>
 
     <properties>

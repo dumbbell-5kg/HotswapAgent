@@ -1,4 +1,4 @@
-package com.example.springbootdemo.mongo;
+package mongo;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -15,7 +15,7 @@ public class AnotherAspect {
      * find findOne aggregate
      */
 
-    @Pointcut("execution(public * com.example.springbootdemo.mongo.AnotherService.service(..)) "
+    @Pointcut("execution(public * mongo.AnotherService.service(..)) "
     )
     public void pointCut_search() {
     }
