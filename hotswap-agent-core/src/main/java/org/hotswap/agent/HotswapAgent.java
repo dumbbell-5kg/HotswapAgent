@@ -63,7 +63,7 @@ public class HotswapAgent {
 
     public static void premain(String args, Instrumentation inst) {
 
-        LOGGER.info("Loading Hotswap agent {{}} - unlimited runtime class redefinition.", Version.version());
+        LOGGER.info("1111Loading Hotswap agent {{}} - unlimited runtime class redefinition.", Version.version());
         parseArgs(args);
         fixJboss7Modules();
         PluginManager.getInstance().init(inst);
