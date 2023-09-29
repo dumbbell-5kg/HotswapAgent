@@ -13,6 +13,7 @@
     <url>https://github.com/HotswapProjects/HotswapAgent</url>
 
     <modules>
+        <module>my-springboot</module>
         <module>hotswap-agent-parent</module>
         <module>hotswap-agent-core</module>
         <module>plugin/hotswap-agent-hibernate-plugin</module>
