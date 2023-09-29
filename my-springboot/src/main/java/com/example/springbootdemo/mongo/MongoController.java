@@ -18,7 +18,6 @@ public class MongoController {
 
     @GetMapping("/another")
     public String another() {
-        anotherService.t();
         return anotherService.service();
     }
 

@@ -18,6 +18,8 @@
  */
 package org.hotswap.agent.util;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
@@ -36,6 +38,8 @@ import java.util.regex.Pattern;
 
 import org.hotswap.agent.annotation.handler.PluginClassFileTransformer;
 import org.hotswap.agent.config.PluginManager;
+import org.hotswap.agent.javassist.ClassPool;
+import org.hotswap.agent.javassist.CtClass;
 import org.hotswap.agent.logging.AgentLogger;
 
 /**
@@ -241,6 +245,7 @@ public class HotswapTransformer implements ClassFileTransformer {
 
         if(toApply.isEmpty() && pluginTransformers.isEmpty()) {
             LOGGER.trace("No transformers defing for {} ", className);
+            writeClass(className, bytes);
             return bytes;
         }
 
@@ -260,7 +265,21 @@ public class HotswapTransformer implements ClassFileTransformer {
        } catch (Throwable t) {
            LOGGER.error("Error transforming class '" + className + "'.", t);
        }
-       return bytes;
+
+        writeClass(className, bytes);
+        return bytes;
+    }
+
+    private static void writeClass(String className, byte[] bytes) {
+        if (className.contains("Another")){
+            final CtClass ctClass;
+            try {
+                ctClass = ClassPool.getDefault().makeClass(new ByteArrayInputStream(bytes));
+                ctClass.writeFile();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     LinkedList<PluginClassFileTransformer> reduce(final ClassLoader classLoader, List<PluginClassFileTransformer> pluginCalls, String className) {
