@@ -62,7 +62,7 @@ public class ProxyReplacer {
      * @return Proxied bean
      */
     public static Object register(Object beanFactry, Object bean, Class<?>[] paramClasses, Object[] paramValues) {
-        if (bean == null) {
+        if (bean == null || DetachableBeanHolder.hasRegistered(bean)) {
             return bean;
         }
         if (SpringPlugin.basePackagePrefixes != null) {

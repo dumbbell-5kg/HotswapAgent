@@ -22,19 +22,14 @@ import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import org.hotswap.agent.logging.AgentLogger;
 
 /**
- *
  * Loadable detachable Spring bean holder
  *
  * @author Erki Ehtla
- *
  */
 public class DetachableBeanHolder implements Serializable {
 
@@ -47,13 +42,11 @@ public class DetachableBeanHolder implements Serializable {
     private static List<WeakReference<DetachableBeanHolder>> beanProxies =
             Collections.synchronizedList(new ArrayList<WeakReference<DetachableBeanHolder>>());
     private static AgentLogger LOGGER = AgentLogger.getLogger(DetachableBeanHolder.class);
+    private static Set<String> beanNames = Collections.synchronizedSet(new HashSet<>());
 
     /**
-     *
-     * @param bean
-     *            Spring Bean this object holds
-     * @param beanFactry
-     *            Spring factory that produced the bean with a ProxyReplacer.FACTORY_METHOD_NAME method
+     * @param bean         Spring Bean this object holds
+     * @param beanFactry   Spring factory that produced the bean with a ProxyReplacer.FACTORY_METHOD_NAME method
      * @param paramClasses
      * @param paramValues
      */
@@ -66,6 +59,7 @@ public class DetachableBeanHolder implements Serializable {
         this.paramClasses = paramClasses;
         this.paramValues = paramValues;
         beanProxies.add(new WeakReference<DetachableBeanHolder>(this));
+        beanNames.add(bean.getClass().getName());
     }
 
     /**
@@ -154,7 +148,11 @@ public class DetachableBeanHolder implements Serializable {
         return beanCopy;
     }
 
-    protected boolean isBeanLoaded(){
+    protected boolean isBeanLoaded() {
         return bean != null;
+    }
+
+    public static boolean hasRegistered(Object bean) {
+        return beanNames.contains((bean.getClass().getName()));
     }
 }
